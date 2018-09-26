@@ -13,15 +13,49 @@
   <input type="text" name="searchName" v-model="searchName">
   <ul>
     <li v-for="(p,index) in filterPreson" :key="index">
-      {
+      {{index}}---{{p.name}}---{{p.age}}
     </li>
   </ul>
+  <button @click='orderType=0'>年龄升序</button>
+  <button @click='orderType=1'>年龄降序</button>
+  <button @click='orderType=2'>原本顺序</button>
 </div>
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
   new Vue({
     el:'#demo',
-    data
+    data:{
+      persons: [
+        {id: 1, name: 'Tom', age: 13},
+        {id: 2, name: 'Jack', age: 12},
+        {id: 3, name: 'Bob', age: 17},
+        {id: 4, name: 'Cat', age: 14},
+        {id: 4, name: 'Mike', age: 14},
+        {id: 4, name: 'Monica', age: 16}
+        ],
+      searchName:'',
+      orderType:0,
+    },
+    computed:{
+      filterPreson(){
+        let{orderType,searchName,persons} = this
+          const newPreson = persons.filter(p =>{
+            return  p.name.indexOf(searchName)!==-1
+          })
+            if(orderType !== 2){
+            newPreson.sort((p1,p2)=>{
+              if(orderType === 0 ){
+                return p2.age - p1.age
+              }else {
+                return p1.age - p2.age
+              }
+            })
+            }
+
+        return newPreson
+
+      }
+    }
   })
 </script>
 </body>
